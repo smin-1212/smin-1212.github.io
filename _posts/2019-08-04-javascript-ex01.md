@@ -16,11 +16,11 @@ tags: [javascript, js, es6]
 > 함수 **호이스팅**이 발생한다.
 
 > * 함수 리터럴로 함수 정의하기
-> {% highlight javascript linenos %}
-> var square = function(x) { 
->    return x * x ; 
->  };
-> {% endhighlight %}
+{% highlight javascript linenos %}
+var square = function(x) { 
+    return x * x ; 
+  };
+{% endhighlight %}
 
 > 함수 리터럴은 **이름없는 함수**이다. 
 > **익명함수, 무명함수** 라고 부른다.
