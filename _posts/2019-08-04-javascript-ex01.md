@@ -16,9 +16,12 @@ tags: [javascript, js, es6]
 > 함수 **호이스팅**이 발생한다.
 
 > * 함수 리터럴로 함수 정의하기
-> ```javascript
-> var square = function(x) { return x * x ; };
-> ``` 
+{% highlight javascript linenos %}
+var square = function(x) { 
+    return x * x ; 
+  };
+{% endhighlight %}
+
 > 함수 리터럴은 **이름없는 함수**이다. 
 > **익명함수, 무명함수** 라고 부른다.
 > 함수 리터럴을 사용할 때는 **끝에 반드시 세미콜론을 붙여야 한다.**
