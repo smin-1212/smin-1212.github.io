@@ -27,5 +27,3 @@ tags: [javascript, js, es6]
 > ![ex03](https://drive.google.com/uc?id=1zAogcaoBMFmWJBwdqtkeVOuTvSRiOlnm){: width="288px" height="138px"}
 
 > * 프로퍼티에 저장된 값의 타입이 함수면 그 프로퍼티를 **메서드**라고 한다.
-
-
