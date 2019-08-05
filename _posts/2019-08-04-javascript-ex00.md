@@ -21,8 +21,7 @@ tags: [javascript, js, es6]
 > ![ex01](https://drive.google.com/uc?id=1XUjrosXtE0pvvaXv40TMhg6kfH5O7LAj){: width="307px" height="176px"}
 >
 > * 객체 리터럴 안에 어떠한 프로퍼티도 작성하지 않으면 빈 객체가 생성된다.
-> ![ex02](https://drive.google.com/uc?id=1jFntdbxvT_ZNt6piSBehoN8mkMGRJC7l)
-{: width="75px" height="35px"}
+> ![ex02](https://drive.google.com/uc?id=1jFntdbxvT_ZNt6piSBehoN8mkMGRJC7l){: width="75px" height="35px"}
 >
 > * delete 연산자를 사용하면 프로퍼티를 삭제할 수 있다.
 > ![ex03](https://drive.google.com/uc?id=1zAogcaoBMFmWJBwdqtkeVOuTvSRiOlnm){: width="288px" height="138px"}
