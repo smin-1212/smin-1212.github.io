@@ -175,3 +175,4 @@ var primeProduct = Prime(100000);
 console.log(primeProduct(2));
 console.log(primeProduct(2));
 ```
+
