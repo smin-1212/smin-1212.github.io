@@ -9,8 +9,11 @@ tags: [javascript, js, es6]
 ```javascript
 function square(x) { return x*x; }
 ```
+
 {: .box-warning}
 **Warning** 함수 선언문으로 정의하면 호이스팅된다.
+
+
 2. 함수 리터럴로 정의하는 방법
 ```javascript
 var square = function(x) { return x*x };
