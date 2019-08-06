@@ -232,3 +232,87 @@ this 는 **동적**이며 함수를 호출하는 상황에 따라 가리키는 �
 _함수가 호출되어 실행되는 시점에 this 값이 결정된다._
 
 this 값은 '함수가 호출되었을 때 그 함수가 속해 있던 객체의 참조' 이며 실행 문맥의 디스 바인딩 컴포넌트가 참조하는 객체이다.
+
+---
+
+#### 식별자 결정 : 유효 범위 체인
+
+변수 x 가 어디에서 선언된 변수인지 결정하는 작업을 가리켜 변수 x의 **식별자 결정(Identifier Resolution)** 이라고 한다.
+
+자바스크립트의 식별자 결정 규칙은 **좀 더 안쪽코드에 선언된 변수를 사용한다** 이다.
+
+```javascript
+var a = "A"; // 자유 변수
+function f(){
+    var b = "B"; // 자유 변수
+    function g(){ // 열린 함수
+        var c = "C"; // 속박 변수
+        console.log(a+b+c);
+    }
+    g();
+}
+f(); // ABC
+```
+
+* **속박 변수** : 함수의 인수와 지역변수
+* **자유 변수** : 속박 변수 이외의 변수
+
+* **닫힌 함수** : 속박 변수만 포함한 함수
+* **열린 함수** : 자유 변수를 가지고 있는 함수
+
+##### 속박 변수 c 
+ 변수 c는 함수 g 안에서 선언된 속박 변수이므로 함수 g의 환경 레코드(선언적 환경 레코드) 안에서 찾을 수 있음.
+
+ 변수 c는 이것으로 결정한다.
+
+ ```javascript
+ // 함수 g가 속한 렉시컬 환경 컴포넌트
+ g_LexicalEnvironment: {
+     // 선언적 환경 레코드
+     DeclarativeEnvironmentRecord : {
+         c: "C"
+     },
+     // 함수 f의 렉시컬 환경 컴포넌트를 참조
+     OuterLexicalEnvironmentReference : f_LexicalEnvironment
+ }
+ ```
+
+##### 자유 변수 b
+
+변수 b 는 함수 g의 바깥에서 선언된 **자유 변수**이다.
+
+변수 b 는 함수 g가 속한 실행 문맥의 환경 레코드(선언적 환경 레코드) 안에서 찾을 수 없다.
+
+실행 문맥 속에 있는 외부 렉시컬 환경 참조를 따라 함수 g를 호출한 함수인 f가 속한 실행 문맥의 환경레코드 (선언적 환경 레코드)를 검색한다.
+
+변수 b는 함수 f 안에 선언되어 있으므로 함수 f의 환경 레코드(선언적 환경 레코드)안에서 찾을 수 있다.
+
+함수 f가 호출되면 함수 f의 환경 레코드에 변수 b가 프로퍼티로 추가된다.
+
+함수 g의 선언문이 평가되어 환경 레코드가 생성된다.
+
+함수 g의 함수 객체가 함수 f의 렉시컬 환경을 참조한다.
+
+이 참조로 함수 g안에서 변수 b를 사용할 수 있게 된다.
+
+함수 g를 실행하는 시점에는 변수 b의 위치를 외부 렉시컬 환경 참조를 따라 검색할 수 있는 상태가 된다.
+
+```javascript
+// 함수 g가 속한 실행 렉시컬 환경 컴포넌트
+g_LexicalEnvironment : {
+    // 선언적 환경 레코드
+    DeclarativeEnvironmentRecord:{
+        c: "C"
+    },
+    // 함수 f의 렉시컬 환경 컴포넌트를 참조
+    OuterLexicalEnvironmentReference: f_LexicalEnvironment
+}
+
+// 함수 f가 속한 실행 렉시컬 환경 컴포넌트
+f_LexicalEnvironment : {
+    DeclarativeEnvironmentRecord:{
+        b: "B"
+    },
+    OuterLexicalEnvironmentReference : global_LexicalEnvironment
+}
+```
