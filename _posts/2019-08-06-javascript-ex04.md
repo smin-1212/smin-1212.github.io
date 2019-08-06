@@ -145,3 +145,16 @@ GlobalEnvironment = {
 }
 ```
 
+자바스크립트 엔진은 전역 코드를 평가할 때 최상위 레벨에 var 문으로 작성한 전역 변수를 전역 환경의 환경 레코드(객체 환경 레코드)에 프로퍼티로 기록한다.
+
+프로퍼티 이름은 식별자 이름이 되고, 프로퍼티 값은 undefined 가 된다.
+
+함수의 경우에는 최상위 레벨에 작성된 함수 선언문을 함수 객체로 생성해서 전역 환경의 환경 레코드(객체 환경 레코드)에 프로퍼티로 기록한다.
+
+```javascript
+var a = { x: 1, y: 2};   
+console.log(window.a);   // Object { x=1, y=2 }
+function norm(x) {...};
+console.log(window.norm); // norm(x)
+```
+
