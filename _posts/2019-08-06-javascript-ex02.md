@@ -50,8 +50,8 @@ console.log(p);  // Particle { x:0, y:0, vx:3, vy:4, velocity:5};
 * 생성자에서 this.프로퍼티 이름에 함수의 참조를 대입하면 메서드를 정의 할 수 있다.
 * 메서드 함수 안에 있는 this는 생성될 인스턴스를 가리킨다.
 
-{% highlight javascript lineos %}
-function Cilcle(center, radius){
+{% highlight javascript linenos %}
+function Circle(center, radius){
     this.center = center;
     this.radius = radius;
     this.area = function(){
