@@ -97,6 +97,7 @@ EnvironmentRecord : {
 * 자바스크립트 인터프리터는 시작하자마자 렉시컬 환경 타입의 전역 환경(Global Environment)을 생성
 * 자바스크립트 인터프리터는 웹브라우저에 내장되어 있다. -> 새로운 웹 페이지를 읽은 후 전역 환경을 생성한다.
 * 전역객체 생성 후 전역 환경의 객체 환경 레코드에 전역 객체의 참조를 대입한다.
+
 ```javascript
 // 전역 환경
 GlobalEnvironment = {
@@ -112,3 +113,18 @@ ExecutionContext = {
     ThisBinding : window,
 }
 ```
+
+웹 브라우저의 자바스크립트 실행 환경에서는 Window 객체가 전역 객체 이므로 객체 환경 레코드의 
+
+bindObject 프로퍼티에는 전역 객체 Window 의 참조가 할당된다.
+
+이로인해 전역 환경의 변수와 함수를 Window 안에서 검색하게 된다.
+
+전역 환경의 외부에는 다른 렉시컬 환경이 없으므로 외부 렉시컬 환경 참조(Outer Lexical Environment Reference )에는 null을 할당한다.
+
+전역 실행 문맥의 디스 바인딩 컴포넌트에도 Window의 참조가 할당되어 전역 실행 문맥의 this 가 Window를 가리키게 되고, 전역 실행 문맥의 프로퍼티를  디스 바인딩 컴포넌트 안에서 검색하게 된다.
+
+---
+
+#### 프로그램 평가와 전역 변수
+
