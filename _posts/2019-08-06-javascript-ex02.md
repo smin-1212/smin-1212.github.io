@@ -1,6 +1,6 @@
 ---
 layout: post
-title: javascript 함수
+title: javascript 생성자
 tags: [javascript, js, es6]
 ---
 
