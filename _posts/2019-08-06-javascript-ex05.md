@@ -101,6 +101,7 @@ console.log(counter());
 
 * 여러개의 내부 상태와 메서드를 가진 클로저
 
+
 ```javascript
 // 사람 데이터를 저장하는 클로저를 생성하는 함수
 function Person(name, age){
@@ -119,6 +120,7 @@ var person = Person("Tom", 19);
 
 * 함수 팩토리
 
+
 ```javascript
 // 다양한 매개변수를 받는 함수를 여러개 생성
 function makeMultiplier(x) {
@@ -135,6 +137,7 @@ console.log(multi10(10));    // 30
 
 
 * 초기화 기능이 추가된 함수 생성하기
+
 
 ```javascript
 function Prime(n) {
