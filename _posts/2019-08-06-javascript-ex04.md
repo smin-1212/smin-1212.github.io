@@ -128,3 +128,20 @@ bindObject 프로퍼티에는 전역 객체 Window 의 참조가 할당된다.
 
 #### 프로그램 평가와 전역 변수
 
+전역 환경과 전역객체를 생성한 후, 자바스크립트 프로그램을 읽어 들인다.
+
+자바스크립트 프로그램을 다 읽어 들인 후 프로그램을 평가한다.
+
+최상위 레벨에 var 문으로 작성한 전역 변수는 전역 환경의 환경 레코드(객체 환경 레코드)의 프로퍼티로 추가된다.
+
+```javascript
+// 전역 환경
+GlobalEnvironment = {
+    // 전역 환경의 환경 레코드인 객체 환경 레코드에 Window 의 참조가 설정되어 있다.
+    ObjectEnvironmentRecord : {
+        bindObject : window
+    },
+    OuterLexicalEnvironmentReference : null
+}
+```
+
