@@ -6,16 +6,42 @@ tags: [javascript, js, es6]
 
 #### 실행 가능한 코드
  자바스크립트 엔진은 **실행 가능한 코드(Executable Code)** 를 만나면, 
+
 그 코드를 평가(Evaluation)해서 실행 문맥(Execution Context)으로 만든다.
+
 실행 가능한 코드(Executable Code)의 유형은 다음과 같다.
+
 * 전역 코드
 * 함수 코드
 * eval 코드
  
 전역코드는 전역 객체(Window) 아래에 정의된 함수를 말한다.
+
 자바스크립트 엔진이 실행가능한 코드의 유형을 분류하는 이유는
+
 **실행 문맥을 초기화 하는 환경과 과정이 다르기 때문이다.**
+
+---
 
 #### 실행 문맥의 구성
 **실행 문맥(Execution Context)** 은 실행 가능한 코드가 실제로 실행되고
+
 관리되는 영역, 실행에 필요한 모든 컴포넌트 여러개가 나누어 관리하도록 만들어져 있음.
+
+```javascript
+// 실행 문맥
+ExecutionContext = {
+    // 렉시컬 환경 컴포넌트
+    LexicalEnvironment:{},
+    // 변수 환경 컴포넌트
+    VariableEnvironment: {},
+    // 디스 바인딩 컴포넌트
+    ThisBinding: null,
+}
+```
+
+**렉시컬 환경(Lexical Environment) 컴포넌트**와 **변수 환경(Variable Environment) 컴포넌트**는 렉시컬 환경 타입의 컴포넌트이다.
+
+**디스 바인딩(This Binding)** 컴포넌트는 그 함수를 호출한 객체의 참조가 저장되는 곳,
+
+이것이 가리키는 값이 곧 해당 실행 문맥의 this 가 된다.
