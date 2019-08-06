@@ -44,6 +44,7 @@ myApp.controls.timeInterval = 16;
 * 그 변수를 함수 안에서는 읽거나 쓸수 있지만 바깥에서는 읽거나 쓸 수 없다.
 * 이런 성질을 활용하여 함수를 이름공간으로 활용 할 수 있다.
 
+
 ```javascript
 var x = "global x";
 (function(){
@@ -54,3 +55,38 @@ console.log(x); // global x
 console.log(y); // Uncaught ReferenceError: y is not defined
 ```
 
+* **즉시 실행 함수 (Immediately-Invoked Function Expression, IIFE)** 내부에서 선언한 변수인 x 와 y는 이 함수의 지역 변수 이므로 전역 변수와 이름이 충돌하지 않는다.
+* 따라서, 일시적인 처리를 수행하고자 할 때 그 내용물을 즉시 실행 함수 안에 작성하면 전역 유효 공간을 오염시키지 않고 실행할 수 있다.
+* 라이브러리를 읽어 들여서 사용할 때 라이브러리 안에 있는 전역 변수와 충돌하지 않도록 하려면 전체 프로그램을 즉시 실행 함수 안에 넣어서 실행한다.
+
+
+```javascript
+(function(){
+    // 이곳에 프로그램을 작성
+})();
+// 프로그램 안에서 선언한 모든 변수가 즉시 실행 함수의 
+// 지역 변수가 되므로 전역 유효 공간을 오염시키지 않는다.
+```
+
+
+#### 모듈 패턴
+
+* 모듈을 즉시 실행 함수 안에 작성하여 실행하면 이름 충돌을 피할 수 있음
+
+```javascript
+var Module = Module || {};
+(function(_Module){
+    var name = "NoName";  // 프라이빗 변수
+    function getName(){   // 프라이빗 함수
+        return name;
+    }
+    _Module.showName = function(){  // 퍼블릭 함수
+        console.log(getName());
+    };
+    _Module.setName = function(x){  // 퍼블릭 함수
+        name = x;
+    };
+})(Module);
+Module.setName("Tom");
+Module.showName();
+```
