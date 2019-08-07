@@ -323,3 +323,35 @@ for(var v of iter){ // 10~20 사이의 정수를 순서대로 출력한다.
     </body>
 </html>
 ```
+
+#### 제너레이터에 값 넘기기
+* 제너레이터로 생성한 이터레이터의 next 메서드에 값을 대입하면 제너레이터에 값을 넘길 수 있음.
+* next 메서드에 넘긴 값은 제너레이터가 일시적으로 정지하기 직전의 yield 표현식의 값으로 사용됨.
+* 제너레이터의 내부상태를 외부에서 변경 가능
+
+```javascript
+// 피보나치 수열 열거하기
+// 피보나치 수열을 다시 설정할 때 next 메서드에 값을 넘긴다.
+function* fibonacci() {
+    var fn1 =0, fn2 = 1;
+    while(true){
+        var fnew = fn1 + fn2;
+        fn1 = fn2;
+        fn2 = fnew;
+        reset = yield fn1;
+        if(reset){
+            fn1 = 0;
+            fn2 = 1;
+        }
+    }
+}
+var iter = fibonacci();
+for(var i = 0 ; i<10; i++){
+    console.log(iter.next().value);
+}   // 1, 1, 2, 3, 5, ... , 55 순으로 출력
+console.log(iter.next().value);     // 89
+console.log(iter.next(true).value); // 1
+```
+
+* 실행 결과
+![ex01](https://drive.google.com/uc?id=19caGIfgSA0O-MfJct7V2_lAL8OomO0RH){: width="267px" height="751px"}
