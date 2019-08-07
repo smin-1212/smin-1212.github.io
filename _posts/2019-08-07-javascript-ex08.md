@@ -143,4 +143,74 @@ add(2);     // 5
 add(2, 1);  // 3
 ```
 
+---
 
+### 이터레이터와 for/of 문
+
+#### 이터레이션(iteration)
+* 이터레이션(iteration)은 반복 처리라는 뜻, 데이터 안의 요소를 연속적으로 꺼내는 행위
+* 배열의 forEach 메서드는 배열의 요소를 순차적으로 검색하여 그 값을 함수의 인수로 넘기기를 반복
+
+```javascript
+var a = [5,4,3];
+a.forEach(function(val) {console.log(val); });
+
+// 5
+// 4
+// 3
+```
+
+#### 이터레이터(iterator)
+* 이터레이터(iterator)는 반복처리(iteration)가 가능한 객체를 말하며, 반복기라고 한다.
+* **반복처리를 단계별로 제어 가능하다.**
+
+```javascript
+var a = [5,4,3];
+var iter = a[Symbol.iterator]();
+// next() 를 호출할때마다 이터레이터 리절트(iterator result)객체가 반환됨
+// iterator result 는 value 와 done 프로퍼티를 갖는 객체임
+console.log(iter.next()); // Object { value: 5, done: false}
+console.log(iter.next());
+console.log(iter.next());
+console.log(iter.next()); // Object { value: undefined, done: true }
+```
+
+이터레이터는 아래의 두가지 항목을 만족하는 객체이다.
+
+* next 메서드를 가진다.
+* next 메서드의 반환값은 value 프로퍼티와 done 프로퍼티를 가진 객체이다. 이때 value에는 꺼낸 값이 저장되고 done 에는 반복이 끝났는지를 뜻하는 논리값이 저장됨
+
+#### 반복 가능한 객체와 for/of 문
+
+* 이터레이터를 사용해서 이터레이션을 하려면 적절한 처리를 직접 작성해야 한다.
+* for/of 문을 사용하면 반복 처리를 자동으로 하도록 만들 수 있다.
+
+```javascript
+// 이터레이터만 사용하여 반복
+var a = [5,4,3];
+var iter = a[Symbol.iterator]();
+while(true){
+    var iteratorResult = iter.next();
+    if(iteratorResult.done == true){
+        break;
+    }
+    var v = iteratorResult.value;
+    console.log(v);
+}
+
+// for/of 문 사용하여 반복
+var a = [5,4,3];
+for(var v of a){
+    console.log(v);
+}
+```
+
+for/of 문은 아래의 두가지 조건을 만족하는 객체를 반복 처리한다.
+* Symbol.iterator 메서드를 가지고 있다.
+* Symbol.iterator 메서드는 반환값으로 이터레이터를 반환한다.
+
+Array, String, TypedArray, Map, Set 등이 반복 가능한 객체이다.
+
+반복 가능한 객체는 for/of문, 전개 연산자, yield*, 비구조화 할당 등에 활용이 가능하다.
+
+이터레이터 객체와 이터러블 객체는 다른 개념이다.
