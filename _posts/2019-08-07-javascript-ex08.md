@@ -355,3 +355,41 @@ console.log(iter.next(true).value); // 1
 
 * 실행 결과
 ![ex01](https://drive.google.com/uc?id=19caGIfgSA0O-MfJct7V2_lAL8OomO0RH){: width="267px" height="751px"}
+
+#### 제너레이터 종료하기 : return 메서드
+* 제너레이터로 생성한 이터레이터의 return 메서드를 실행하면 인수값을 반환한 후에 제너레이터를 종료한다.
+
+```javascript
+function* g(){
+    yield 1;
+    yield 2;
+    yield 3;
+}
+
+var iter = g();
+iter.next();      // Object {value:1, done: false}
+iter.return(10);  // Object {value:10, done: true}
+iter.next();      // Object {value: undefined, done: true}
+```
+
+#### 반복 가능한 객체에 위임하기: yield*
+* yield* 에는 반복 가능(iterable)한 객체를 지정, 이후 반복가능한 객체에서 순차적으로 값을 꺼내 각각의 값에 yield를 적용한다.
+
+```javascript
+function* f(){
+    yield "X";
+    yield "Y";
+}
+function* g(){
+    yield 0;
+    yield* [2,4];
+    yield* "AB";
+    yield* f();
+}
+var iter = g();
+for(var v of iter){
+    console.log(v);
+    // 0, 2, 4, A, B, X, Y 의 순서대로 출력
+}
+```
+
