@@ -292,3 +292,13 @@ function F() {};
 console.log(F.prototype.__proto__); // Object {} : Object.prototype
 ```
 
+* 생성자로 생성한 인스턴스가 Object.prototype 의 프로퍼티를 사용 가능
+
+#### 프로토타입 객체의 교체 및 constructor 프로퍼티
+
+
+* 생성자가 가진 prototype 프로퍼티 값을 새로운 객체로 교체할 때는 주의해야함.
+* 프로퍼티만 정의되어 있는 새로운 객체를 prototype 프로퍼티 값으로 대입하면 인스턴스와 생성자 사이의 연결 고리가 끊어지게 된다.
+* 그 객체에는 constructor 프로퍼티가 없다.
+* 인스턴스와 생성자 사이의 연결고리를 유지하려면 prototype으로 사용할 객체에 constructor 프로퍼티를 정의하고, 그 프로퍼티에 생성자의 참조를 대입해야 한다.
+{: .box-warning}
