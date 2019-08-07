@@ -278,3 +278,48 @@ for(var v of iter){ // 10~20 사이의 정수를 순서대로 출력한다.
     console.log(v);
 }
 ```
+
+
+
+* 무작위 행보 시뮬레이터
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>무작위 행보</title>
+        <script>
+            function* randomWalk(c, x0, y0, d){
+                var dx = [1,0,-1,0], dy = [0,1,0,-1]; // 이동 방향
+                var x = x0;
+                var y = y0;
+                c.strokeStyle = "red";
+                c.globalAlpha = 0.25;
+                while(true){
+                    yield;
+                    c.beginPath();
+                    c.moveTo(x,y);
+                    var dir = Math.floor(Math.random()*4); // 0~3 사이의 난수
+                    x += d*dx[dir];
+                    y += d*dy[dir];
+                    c.lineTo(x,y);
+                    c.stroke();
+                }
+            }
+            window.onload = function(){
+                var canvas = document.getElementById("mycanvas");
+                var ctx = canvas.getContext("2d");
+                var iter = randomWalk(ctx, 300, 400, 4, "red");
+                setInterval(function(){iter.next();}, 10);
+            };
+        </script>
+        <style>
+            #mycanvas {border:1px solid gray; }
+        </style>
+    </head>
+    <body>
+        <canvas id="mycanvas" width=600 height=600 ></canvas>
+    </body>
+</html>
+```
