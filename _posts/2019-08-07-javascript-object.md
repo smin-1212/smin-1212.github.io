@@ -249,3 +249,46 @@ Circle. apply(newObj, arguments);
 // 4. 완성된 객체를 결괏값으로 반환한다.
 return newObj;
 ```
+
+
+---
+
+### 프로토타입 객체의 프로퍼티
+
+> * 함수를 정의하면 함수 객체는 기본적으로 prototype 프로퍼티를 갖게 된다.
+> * prototype 프로퍼티는 프로토타입 객체를 가리킨다.
+> * 기본적으로 constructor 프로퍼티와 내부프로퍼티 \[\[Prototype]](\_\_proto__) 를 가지고 있다.
+
+
+#### constructor 프로퍼티
+constructor 프로퍼티는 **함수 객체의 참조를 값**으로 가지고 있다.
+
+```javascript
+function F(){};
+console.log(F.prototype.constructor);
+// Function F() {}
+```
+
+![ex01](https://drive.google.com/uc?id=1bNiXbTPr7RQlzaZRpSS408mJ_bwh_SvI){: width="542px" height="239px"}
+
+* 생성자와 생성자의 프로토타입 객체는 서로를 참조한다.
+* '생성자의 prototype 프로퍼티가 프로토타입 객체를 가리키며, 이 프로토타입 객체의 constructor 프로퍼티가 생성자를 가리키는 연결고리'로 묶여있다.
+* 생성자로 생성한 인스턴스는 생성될 때의 프로토타입 객체의 참조만 가지고 있고, 생성자와는 직접적인 연결고리가 없다.
+* 인스턴스가 어떠한 생성자로 생성된 것인지 알아내는 방법으로 인스턴스가 가진 프로토 타입의 constructor 프로퍼티 값을 확인 하는 방법이 있다.
+
+```javascript
+function F() {};
+obj = new F();
+console.log(obj.constructor); // Function F() {}
+```
+
+#### 내부 프로퍼티 \[\[Prototype]]
+
+* 함수 객체가 가진 프로토타입 객체의 내부 프로퍼티 **[\[Prototype]]** 는 기본적으로 Object.prototype 을 가리킨다.
+* 프로토타입 객체의 프로토타입은 **Object.prototype** 이다.
+
+```javascript
+function F() {};
+console.log(F.prototype.__proto__); // Object {} : Object.prototype
+```
+
