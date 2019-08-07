@@ -217,3 +217,35 @@ var objC ={};
 objC.__proto__ = objB;
 objC.sayHello(); // "Hello! Huck"
 ```
+
+#### new 연산자의 동작 과정
+* 객체의 생성 -> 프로토타입의 설정 -> 객체의 초기화
+
+```javascript
+function Circle(center, radius){
+    this.center = center;
+    this.radius = radius;
+}
+Circle.prototype.area = function(){
+    return Math.PI*this.radius.this.radius;
+};
+
+// Circle 생성자로 인스턴스는 아래와 같이 생성
+var c = new Circle({x:0, y:0}, 2.0);
+
+// new 연산자로 Circle 생성자를 사용하면 내부적으로는 다음과 같은 작업을 수행
+// 1. 빈 객체를 생성
+var newObj = {};
+
+// 2. Circle.prototype을 생성된 객체의 프로토타입으로 설정한다.
+newObj.__proto__ = Circle.prototype; // 인스턴스의 프로토타입 체인이 정의됨
+// 이때 Circle.prototype이 가리키는 값이 객체가 아니라면 Object.prototype을 
+// 프로토 타입으로 설정한다.
+
+// 3. Circle 생성자를 실행하고 newObj를 초기화 한다. 이때 this는 1. 로
+// 생성한 객체로 설정한다.
+Circle. apply(newObj, arguments);
+
+// 4. 완성된 객체를 결괏값으로 반환한다.
+return newObj;
+```
