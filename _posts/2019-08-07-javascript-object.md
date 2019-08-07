@@ -302,3 +302,56 @@ console.log(F.prototype.__proto__); // Object {} : Object.prototype
 * 그 객체에는 constructor 프로퍼티가 없다.
 * 인스턴스와 생성자 사이의 연결고리를 유지하려면 prototype으로 사용할 객체에 constructor 프로퍼티를 정의하고, 그 프로퍼티에 생성자의 참조를 대입해야 한다.
 {: .box-warning}
+
+```javascript
+function Circle(center, radius){
+    this.center = center;
+    this.radius = radius;
+}
+Circle.prototype = {
+    constructor: Circle, // 생성자를 constructor로 대입
+    area: function() {  
+            return Math.PI* this.radius*this.radius;
+        }
+};
+var c = new Circle({x:0, y:0}, 2.0);
+console.log(c.constructor); // Function Circle
+console.log(c instanceof Circle); // true
+```
+
+#### 인스턴스 생성 후에 생성자의 프로토타입을 수정하거나 교체한 경우
+
+* 인스턴스의 프로토타입은 생성자가 인스턴스를 생성할 때 가지고 있던 프로토타입 객체이다.
+* 인스턴스를 생성한 후에 생성자의 prototype 프로퍼티 값을 다른 객체로 교체해도 인스턴스의 프로토타입은 바뀌지 않는다.
+* 인스턴스의 프로퍼티는 생성되는 시점의 프로토타입에서 상속 받는다.
+* 생성된 후에는 생성자의 프로토타입을 바꾸어도 교체한 객체로부터는 프로퍼티를 상속받지 않는다.
+* 생성자가 기존에 가지고 있던 프로토 타입 객체에 프로퍼티를 추가한 경우, 생성자와 인스턴스 사이의 연결고리가 끊기지 않는다. -> 생성자에서 정의한 프로퍼티를 인스턴스에서 사용가능
+
+```javascript
+function Circle(center, radius){
+    this.center = center;
+    this.radius = radius;
+}
+var c = new Circle({x:0, y:0}, 2.0); // 생성
+// 프로토타입 자체를 변경한다.
+Circle.prototype = {
+    constructor: Circle,
+    area: function(){
+        return Math.PI*this.radius*this.radius;
+    }
+};
+c.area(); // Uncaught TypeError : c.area is not a function
+```
+
+```javascript
+function Circle(center, radius){
+    this.center = center;
+    this.radius = radius;
+}
+var c = new Circle({x: 0, y: 0}, 2.0);
+// 프로토타입에 area 메소드추가, Error 발생 없음
+Circle.prototype.area = function(){
+    return Math.PI*this.radius*this.radius;
+};
+c.area(); // 12.5.....
+```
