@@ -244,3 +244,80 @@ function compose(f, g){
 }
 ```
 
+---
+
+### 부분 적용
+
+* 인수를 여러개 받는 함수의 몇몇 인수를 상수로 지정해서 새로운 함수를 생성하는 기법
+
+```javascript
+// 원본 함수 
+function product(x, y){
+    return x * y;
+}
+// 부분 적용 후 함수
+function product2(y) {
+    return product(2, y);
+};
+product2(3); // 6
+
+// bind 메서드 적용
+// bind 메서드의 두번째 이후 인수가 원래 함수의 인수에 왼쪽부터 오른쪽으로 할당됨
+// 그러면 함수 product에 인수를 부분 적용한 함수인 product2 가 만들어짐
+product2 = product.bind(null, 2);
+```
+
+* 부분적용된 함수를 반환하는 함수
+
+```javascript
+function partial(f){
+    // 중첩 함수에서 arguments를 사용하기 위해 저장해 둠
+    var args = arguments;
+    return function(){
+        // 외부 함수의 두 번째 인수를 변수 a에 복사
+        var a = Array.prototype.slice.call(args, 1); 
+        console.log(a);
+        for(var i =0, j=0; i<a.length; i++){
+            // 외부 함수의 두 번째 인수가 undefined 면 이 함수의 arguments를 사용한다.
+            if(a[i] == undefined){
+                a[i] = arguments[j++];
+            }
+        }
+        return f.apply(this,a);
+    };
+}
+
+var square = partial(Math.pow, undefined, 2); // 제곱을 구하는 함수 
+var sqrt = partial(Math.pow, undefined, .5);  // 제곱근을 구하는 함수
+
+```
+
+---
+
+### 커링
+
+* 커링이란 인수를 두 개 이상 받는 함수를 분해하여 인수가 하나인 함수의 중첩 함수로 변환하는 작업
+
+* 커링의 장점은 부분 적용한 함수를 쉽게 만들 수 있다는 점
+
+```javascript
+// 이렇게 정의한 함수 pow 는 Math.pow를 커링 한 것
+var pow = function(exponent){
+    return function(base){
+        return Math.pow(base, exponent);
+    };
+};
+
+// 아래와 같다.
+Math.pow(base, exponent) = pow(exponent)(base)
+
+```
+
+```javascript
+//
+var sum = function(a, b){
+    return a+b;
+};
+var a = [1,2,3,4];
+var abs_a = pow(.5)(a.map(pow(2)).reduce(sum));
+```
