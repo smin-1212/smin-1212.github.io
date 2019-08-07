@@ -93,29 +93,6 @@ Function 객체에 추가된 프로퍼티는 그 함수를 실행하지 않아�
 
 함수의 프로퍼티로 작성하면 함수 객체가 이름공간의 역할을 하기 때문에 문제 발생하지 않는다.
 
-#### 메모이제이션
-
-* 함수를 호출했을 때의 인수와 반환값을 한 쌍으로 만들어 저장해 두는 기법
-
-함수에 메모이 제이션을 적용해 두면 한 번 건네받은 이력이 있는 인수의 결괏값으로 저장해 둔 결과를 반환, **추가적인 계산 생략이 가능**
-
-```javascript
-// 피보나치 수열을 구하는 함수
-function fibonacci(n){
-    if(n<2) {
-        return n;
-    }
-    if(!(n in fibonacci)){
-        fibonacci[n] = fibonacci(n-1) + fibonacci(n-2);
-    }
-    return fibonacci[n];
-}
-
-for(var i =0; i <= 20; i++){
-    console.log((" " +i).slice(-2) + ":" + fibonacci(i));
-}
-```
-
 
 ### 고차 함수
 
@@ -160,5 +137,66 @@ console.log(digits);
 console.log(randomChars);
 ```
 
+#### 메모이제이션
+
+* 함수를 호출했을 때의 인수와 반환값을 한 쌍으로 만들어 저장해 두는 기법
+
+함수에 메모이 제이션을 적용해 두면 한 번 건네받은 이력이 있는 인수의 결괏값으로 저장해 둔 결과를 반환, **추가적인 계산 생략이 가능**
+
+```javascript
+// 피보나치 수열을 구하는 함수
+function fibonacci(n){
+    if(n<2) {
+        return n;
+    }
+    if(!(n in fibonacci)){
+        fibonacci[n] = fibonacci(n-1) + fibonacci(n-2);
+    }
+    return fibonacci[n];
+}
+
+for(var i =0; i <= 20; i++){
+    console.log((" " +i).slice(-2) + ":" + fibonacci(i));
+}
+```
 
 
+```javascript
+// 인수로 받은 함수의 실행 결과를 객체 cache 안에 저장한다.
+// 인수로 받은 함수를 같은 인수로 실행하면 실제 계산을 하는 대신
+// cache에 저장된 값을 반환하는 함수가 만들어진다.
+// memorize 함수의 중첩 함수는 클로저를 생성한다.
+// 따라서 memorize의 지역 변수인 cache 는 클러저 내부 상태로 저장된다.
+function memorize(f){
+    var cache = {};
+    return function(x){
+        if(cache[x] == undefined) cache[x] = f(x);
+        return cache[x];
+    };
+}
+
+function isPrime(n){
+    if(n<2) return false;
+    var m = Math.sqrt(n);
+    for(var i=2; i<=m ; i++){
+        if(n%i == 0 ){
+            return false;
+        }
+    }
+    return true;
+}
+
+var isPrime_memo = memorize(isPrime);
+var N = 1000;
+for(var i = 2; i<=N; i++){
+    isPrime_memo(i);
+}
+
+for(var i = 2 ; i+2<=N ; i++){
+    if(isPrime_memo(i) && isPrime_memo(i+2)){
+        console.log(i + ","+(i+2));
+    }
+}
+// 재귀 함수에 메모이 제이션을 적용하려면 원래 함수를 재귀호출하는 대신
+// 메모이제이션 된 함수를 재귀 호출하도록 만들어야 한다.
+```
