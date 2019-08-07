@@ -203,3 +203,36 @@ for(var i = 2 ; i+2<=N ; i++){
 // 메모이제이션 된 함수를 재귀 호출하도록 만들어야 한다.
 ```
 
+
+### 함수의 합성
+
+함수 f(x)와 g(x)가 있을 때, 함수 f(g(x)) 를 함수 f와 g의 합성함수 라고 한다.
+
+함수 compose는 인수로 받은 함수를 순차적으로 합성한 함수를 반환한다.
+
+
+```javascript
+function compose(f, g){
+    return function(x){
+        return f(g(x));
+    };
+}
+
+var square = function(x) { 
+    return x*x; 
+    };
+var add1 = function(x) { 
+    return x+1; 
+    };
+var h = compose(square, add1); // h(x) = (x+1)*(x+1)
+console.log(h(2));
+
+
+// 함수를 합성하는 함수(인수를 여러개 받아서 적용)
+function compose(f, g){
+    return function(){
+        return f.call(this, g.apply(this, arguments));
+    };
+}
+```
+
