@@ -109,5 +109,38 @@ function f(a,b, ...args){
 }
 // 나머지 매개변수는 배열로 받음
 f(1,2,3,4,5,6); // 1 2 [3, 4, 5, 6]
+
+// 화살표 함수 안에서는 arguments 를 사용할 수 없지만,
+// 나머지 매개변수를 이용하여 화살표 함수 안에서도 가변인수를 사용 가능함.
+var sum = (...args) => {
+    for(var i =0, s=0; i<args.length; i++){
+        s+=args[i];
+    };
+    return s;
+};
+
+sum(1,2,3,4,5);
 ```
+
+#### 인수의 기본값
+
+* 함수의 인자에 대입연산자를 사용해서 기본값을 설정 할 수 있음
+* 기본값을 설정한 인자에 호응하는 인수를 생략하거나 undefined 를 넘기면 대입 연산자 우변의 값이 기본값이된다.
+
+```javascript
+// b 는 기본값이 1이다.
+function multiply(a, b=1){
+    return a*b;
+}
+multiply(3);
+multiply(3,2);
+
+// 다른 인자의 값도 기본값으로 사용 가능함
+function add(a, b=a+1){
+    return a+b;
+}
+add(2);     // 5
+add(2, 1);  // 3
+```
+
 
