@@ -78,3 +78,87 @@ var tom = { name: "Tom Sawyer" };
 var sayToTom = say.bind(tom);
 sayToTom("Hello", "Mr.");    // Hello! Mr. Tom Sawyer
 ```
+
+#### 함수에 프로퍼티 추가하기
+
+* 다른 객체와 마찬가지로 함수에도 프로퍼티를 추가 할 수 있음.
+
+```javascript
+function f(x){...}
+f.p = a;
+f.g = function() {...};
+```
+
+Function 객체에 추가된 프로퍼티는 그 함수를 실행하지 않아도 읽거나 쓸 수 있다.
+
+함수의 프로퍼티로 작성하면 함수 객체가 이름공간의 역할을 하기 때문에 문제 발생하지 않는다.
+
+#### 메모이제이션
+
+* 함수를 호출했을 때의 인수와 반환값을 한 쌍으로 만들어 저장해 두는 기법
+
+함수에 메모이 제이션을 적용해 두면 한 번 건네받은 이력이 있는 인수의 결괏값으로 저장해 둔 결과를 반환, **추가적인 계산 생략이 가능**
+
+```javascript
+// 피보나치 수열을 구하는 함수
+function fibonacci(n){
+    if(n<2) {
+        return n;
+    }
+    if(!(n in fibonacci)){
+        fibonacci[n] = fibonacci(n-1) + fibonacci(n-2);
+    }
+    return fibonacci[n];
+}
+
+for(var i =0; i <= 20; i++){
+    console.log((" " +i).slice(-2) + ":" + fibonacci(i));
+}
+```
+
+
+### 고차 함수
+
+**고차함수** : 함수를 인수로 받는 함수, 함수를 반환하는 함수
+
+* 고차 함수를 이용하여 작업을 한 곳에 모아 추상화를 하면 프로그램의 가독성과 유지 보수성을 향상시킬 수 있다.
+* 함수형 프로그래밍을 할 때 자주 사용, map, filter, reduce 등의 배열 메서드 사용
+
+* ex) 패턴이 같은 작업을 고차함수로 정리
+```javascript
+ // 변환 전
+ // 수열을 표시하는 프로그램
+ digits = "";
+ for(var i = 0 ; i <10 ; i++){
+     digits += i; // 공통로직
+ }
+ console.log(digits);
+
+ // 변환 전
+ // 무작위 알파벳 문자열을 표시하는 프로그램
+ randomChars = "";
+ for(var i = 0 ; i < 8 ; i++){
+     randomChars += String.fromCharCode(Math.floor(Math.random()*26) + "a".charCodeAt(0)); // 공통 로직
+ }
+ console.log(randomChars);
+
+ // 이하 공통부분 추출
+function joinString(n, f){
+    var s="";
+    for(var i =0; i<n;i++){
+        s += f(i); // 전달받은 함수인자 f()
+    }
+    return s;
+}
+
+// 이하 공통 로직 적용 후
+var digits = joinString(10, function(i) { return i; });
+var randomChars = joinString(8, function(i)){
+    return String.fromCharCode(Math.floor(Math.random()*26) + "a".charCodeAt(0));
+}
+console.log(digits);
+console.log(randomChars);
+```
+
+
+
