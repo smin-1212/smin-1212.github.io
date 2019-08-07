@@ -186,3 +186,34 @@ console.log("넓이 = " , c1.area());
 </html>
 ```
 
+--- 
+
+### 프로토타입 상속
+
+* 자바스크립트는 클래스가 아닌 객체를 상속한다.
+* 상속은 **프로토타입 체인**이라고 부르는 객체의 자료구조로 구현되어있다.
+* **프로토타입 상속**이라고 부른다.
+
+#### 프로토타입 체인
+> **내부 프로퍼티 [\[Prototype]]**
+> * 모든 객체는 내부 프로퍼티 **[\[Prototype]]** 을 가지고 있다.
+> * 함수 객체의 **prototype 프로퍼티와는 다른 객체이다.**
+> * ECMAScript 6 부터 **\_\_proto__** 프로퍼티에 **[\[Prototype]]** 의 값이 저장된다.
+> * 객체의 \_\_proto__ 프로퍼티는 그 객체에게 상속을 해 준 부모 객체를 가리킨다.
+> * 따라서 객체는 \_\_proto__ 프로퍼티가 가리키는 부모 객체의 프로퍼티를 사용할 수 있다.
+
+```javascript
+var objA = {
+    name: "Tom",
+    sayHello: function() {
+        console.log("Hello! " + this.name);
+    }
+};
+var objB = {
+    name: "Huck"
+};
+objB.__proto__ = objA;
+var objC ={};
+objC.__proto__ = objB;
+objC.sayHello(); // "Hello! Huck"
+```
