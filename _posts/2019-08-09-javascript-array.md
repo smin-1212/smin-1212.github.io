@@ -273,3 +273,7 @@ console.log(buffer.byteLength); // 1024
 #### 형식화 배열 ( TypedArray )
 * 배열은 Array 객체이다. 편리하지만 배열 요소접근이 다소 느리다.
 * 형식화 배열( TypedArray ) 객체는 ArrayBuffer 가 확보한 버퍼를 데이터의 저장장소로 이용하여 데이터의 빠른 읽기와 쓰기를 구현하였다.
+
+
+---
+
