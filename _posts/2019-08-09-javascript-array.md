@@ -122,5 +122,75 @@ for(var i = 0, sum =0; i<a.length; i ++ ){
 console.log(sum);
 ```
 
+---
+
+### 비구조화 할당
+
+#### 비구조화 할당(Destructuring)은 배열, 객체, 반복 가능 객체에서 값을 꺼내어 그 값을 별도의 변수에 대입하는 문장.
 
 
+* 배열의 비구조화 할당 ( Array Destructuring )
+
+```javascript
+var [a,b] = [1,2]; // var a=1, b=2; 와 같다.
+// 변수 a와 b를 선언한 후 우변의 배열에서 요소를 하나씩 꺼내어 인덱스 순서대로 a,b에 대입
+
+// 이미 선언된 변수를 비구조화 할당하는 예
+[a,b] = [2*a, 3*b]; // a = 2*a, b=3*b 와 같음
+[a,b] = [b,a];      // a 값과 b 값을 교환함
+
+// 우변과 좌변의 크기가 같지 않으면 undefined 가 자동으로 할당된다.
+[a,b,c] = [1,2];      // a=1, b=2, c=undefined 
+[a,b] = [1,2,3];      // a=1, b=2, 3은 무시됨
+[,a,,b] = [1,2,3,4];  // a=2, b=4 와 같음
+
+// 나머지 요소, 전개연산자(...)를 사용하여 나머지 요소를 이용할 수 있음
+[a,b, ...rest] = [1,2,3,4]; // a= 2, b= 2, rest = [3,4] 와 같음
+
+// 요소의 기본값 설정 가능
+[a=0, b=1, c=2] = [1,2]; // a=1,b=2, c=2 와 같다.
+
+// 함수가 배열로 반환한 값을 비구조화 할당받기
+// 2차원 좌표점(x,y)를 원점 기준으로 각도 theta만큼 회전하기
+function rotation(x, y, theta){
+    var s = Math.sin(theta), c = Math.cos(theta);
+    return [c*x - s*y, s*x + c*y];
+}
+var [a,b] = rotation(1,2,Math.PI/3);
+```
+
+* 객체의 비구조화 할당 ( Object Destructuring )
+#### 좌변에는 객체 리터럴과 비슷한 문법을 사용한다.
+
+```javascript
+var {a: x, b:y} = {a:1, b:2}; // x=1, y=2 와 같음
+
+// 이미 선언된 변수를 비구조화 할당
+{a:x, b:y} = {a:y, b:x}; // x값과 y 값을 교환한다.
+
+// 좌변의 변수에 호응하는 프로퍼티 이름이 오른쪽에 없으면 그 변수에는 undefined가 할당
+{a:x, b:y} = {a:1, c:2}; // x=1, y=undefined와 같다.
+
+// 우변에 값이있지만, 그에 대응하는 이름의 변수가 좌변에 없으면 무시됨
+{a: x, b: y} = {a: 1, b: 2, c: 3}; // x=1, y=2 와 같음. 3은 무시됨
+
+// Math객체의 프로퍼티를 변수에 대입
+var {sin:sin, cos:cos, tan:tan, PI:PI} = Math;
+// var sin = Math.sin, cos = Math.cos, tan = Math.tan, PI = Math.PI 와 같다.
+// Math.sin(Math.PI /3) -> sin(Math.PI/3) 으로 간결하게 표현 가능
+
+// 프로퍼티의 기본값
+{a: x=1, b: y=2, c: z=3} = {a:2, b:4}; // x=2, y=4, z=3과 같음
+
+// 프로퍼티 이름 생략하기
+{a, b} = {a:1, b: 2}; // {a:a, b:b} = {a:1, b:2} 와 같음
+var {sin, cos, tan, PI} = Math;
+// var sin = Math.sin, cos=Math.cos ... 과 같음
+
+// 프로퍼티 이름을 생략한 상태에서도 기본값 지정이 가능함
+{a=1, b=2, c=3} = {a:2, b:4}; // a=2, b=4, c=3과 같음
+```
+
+---
+
+* 반복 가능한 객체의 비구조화 할당
