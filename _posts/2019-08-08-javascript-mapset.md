@@ -37,3 +37,68 @@ zip = new Map(zips);
 console.log(zip);
 ```
 
+* Map 객체의 메서드
+
+Map 객체는 Map.prototype의 프로퍼티와 메서드를 상속받는다.
+
+메서드 | 설명
+---|---
+clear() | Map 객체 안에있는 모든 데이터를 삭제한다.
+delete(key) | Map 객체에서 key가 가리키는 데이터를 삭제한다.
+entries() | Map 객체가 가진 데이터(키와 값 쌍) 값을 저장한 이터레이터를 데이터를 삽입한 순서대로 반환
+forEach(callback) | Map 객체의 모든 데이터를 대상으로 callback 함수를 실행한다. 이때 실행 순서는 데이터가 삽입된 순서이다.
+get(key) | Map 객체에서 key 가 가리키는 데이터를 반환한다.
+has(key) | Map 객체에서 key 가 가리키는 데이터가 있는지 판정한다.
+keys() | Map 객체에서 데이터 키를 값으로 가지는 이터레이터 반환한다.
+set(key, value) | Map 객체에 키가 key 고 값이 value 인 데이터를 추가
+values() | Map객체에서 데이터 값을 값으로 가지는 이터레이터를 반환한다.
+
+```javascript
+// 데이터 추가하기
+// set(key, value) 메서드 사용
+
+var zip = new Map();
+zip.set("Tom", "131-8634");
+zip.set("Huck", "556-0002");
+console.log(zip); // Map {"Tom" => "131-8634", "Huck" => "556-0002" }
+
+// 값 읽기
+// 특정 키 값이 가리키는 데이터 값을 읽을때, get(key) 메서드를 사용
+console.log(zip.get("Tom")); // 131-8634
+
+// 데이터가 있는지 확인
+console.log(zip.has("Tom")); // true
+
+// 데이터의 삭제
+// Key 는 데이터의 키 값이다.
+zip.delete("Huck"); 
+
+// 모든 데이터 삭제
+zip.clear();
+
+// 모든 키값의 열거
+var iter = zip.keys();
+for(var v of iter){
+    console.log(v); // key 출력
+}
+
+// 모든 값의 열거
+var iter = zip.values();
+for(var v of iter){
+    console.log(v); // value 출력
+}
+
+// 비구조화 할당 활용
+var zip = new Map([["Tom", "131-8634"], ["Huck", "556-0002"]]);
+for(var [key, value]] of zip ){
+    console.log(key, value);
+}
+
+// 모든 데이터를 함수로 처리하기
+var zip = new Map([["Tom", "131-8634"], ["Huck", "556-0002"]]);
+zip.forEach(function(value, key, map){
+    console.log(key + " => " + value);
+});
+```
+
+
