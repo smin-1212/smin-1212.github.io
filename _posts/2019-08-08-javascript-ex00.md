@@ -50,3 +50,10 @@ var person = (function(){
 
 // person._name 에 할당 불가
 ```
+
+
+---
+
+### 프로퍼티 속성
+
+...
