@@ -355,3 +355,28 @@ Circle.prototype.area = function(){
 };
 c.area(); // 12.5.....
 ```
+
+
+---
+
+#### Object.create() 메서드로 객체 생성하기
+* **Object.create()** 메서드를 사용하면 명시적으로 프로토타입을 지정해서 객체를 생성할 수 있다.
+* 이 메서드를 활용하면 가장 간단하게 **상속**을 표현 할 수 있다.
+
+```javascript
+var person1 = {
+    name : "Tom",
+    sayHello: function() {
+        console.log("Hello! " + this.name);
+    }
+};
+var person2 = Object.create(person1);
+
+// person1의 name 프로퍼티 상속을 받음
+person2.name = "Huck";
+person2.sayHello(); // Hello Huck
+
+// 인수에 null을 넘기면 프로토타입이 없는 객체를 생성할 수 있다.
+var blankObject = Object.create(null);
+
+```
