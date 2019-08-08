@@ -191,6 +191,85 @@ var {sin, cos, tan, PI} = Math;
 {a=1, b=2, c=3} = {a:2, b:4}; // a=2, b=4, c=3과 같음
 ```
 
----
 
 * 반복 가능한 객체의 비구조화 할당
+
+```javascript
+// 우변에 반복 가능한(이터러블한) 객체가 있을 때도 비구조화 할당을 할 수 있음.
+// 좌변은 배열 리터럴과 비슷한 문법을 사용
+
+var [a,b,c] = "ABC";   // var a = "A", b = "B", c = "C" 와 같음
+function* createNumbers(from, to){
+    while(from <= to) {
+        yield from++;
+    }
+}
+var [a,b,c,d,e] = createNumbers(10,15);
+// a = 10, b = 11, c = 12, d = 13, e = 14
+```
+
+
+* 중첩된 자료 구조의 비구조화 할당
+
+```javascript
+var[a,[b,c]] = [1,[2,3]]; // var a = 1, b = 2 , c = 3 과 같다.
+```
+
+
+---
+
+
+### 전개 연산자 ( spread operator )
+
+* "..." 은 전개 연산자 이다.
+* 전개 연산자는 반복 가능한(이터러블한) 객체를 반환하는 표현식 앞에 표기한다.
+* 반복 가능한 객체를 배열 리터럴 또는 함수의 인수 목록으로 펼칠 수 있다.
+
+```javascript
+[..."ABC"] // ["A", "B", "C"]
+f(..."ABC") // f("A", "B", "C") 와 같다.
+[1, ...[2,3,4],5] // [1,2,3,4,5]
+f(...[1,2,3])    // f(1,2,3) 과 같다.
+
+// 제너레이터가 만든 이터레이터를 배열 리터럴 안에 펼치는 예
+function* createNumbers(from, to){
+    while(from <= to){
+        yield from++;
+    }
+}
+var iter = createNumbers(10,15);
+[...iter] // [10,11,12,13,14,15]
+
+// 배열 두 개를 연결할 때, 전개연산자 사용
+var a = ["A","B","C"];
+a.push(...["D","E"]);  // ["A", "B", "C", "D", "E"]
+
+// 배열안의 최대값을 Math.max로 구한다.
+var a = [5,2,3,7,1];
+Math.max(...a); // 7
+
+```
+
+---
+
+### ArrayBuffer 와 형식화 배열
+
+* ArrayBuffer, DataView, 형식화 배열(TypedArray) 은 연속된 데이터 영역(버퍼)을 조작하기 위해 만들어진 객체임, 웹브라우저에서 WebGL 3차원 그래픽을 구현할 용도로 만들어짐
+
+#### ArrayBuffer
+* ArrayBuffer 생성자는 메모리에 고정 길이를 가진(길이가 변하지 않는) 인접한 영역(버퍼)을 확보한다.
+* ArrayBuffer는 메모리에 영역을 확보하는 역할만 할 뿐 버퍼를 조작하는 메서드는 제공하지 않는다.
+
+```javascript
+// 메모리에 1024바이트의 버퍼(ArrayBuffer 객체)를 만든다.
+var buffer = new ArrayBuffer(1024);
+
+// 만들어진 버퍼의 크기 구하기 
+console.log(buffer.byteLength); // 1024
+// byteLength 프로퍼티는 읽기 전용이며 수정 불가하다.
+
+```
+
+#### 형식화 배열 ( TypedArray )
+* 배열은 Array 객체이다. 편리하지만 배열 요소접근이 다소 느리다.
+* 형식화 배열( TypedArray ) 객체는 ArrayBuffer 가 확보한 버퍼를 데이터의 저장장소로 이용하여 데이터의 빠른 읽기와 쓰기를 구현하였다.
