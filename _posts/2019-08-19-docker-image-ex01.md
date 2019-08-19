@@ -13,6 +13,8 @@ tags: [docker]
 ## 1. Docker Hub 이미지 검색
 ### 접속 주소 : [https://hub.docker.com/](https://hub.docker.com/)
 
+### 1.1 Docker Hub 에서 이미지를 검색한다
+
 ### 1.1.1 이미지 지정
 
 ```json
@@ -30,6 +32,8 @@ centos:7
 ---
 
 ## 2. Docker Hub 이미지 다운로드
+
+### 2.1 Docker image 를 다운로드 받는다.
 
 ### 2.1.1 docker image pull 명령 구문
 
@@ -56,6 +60,8 @@ docker image pull gcr.io.tensorflow/tensorflow
 ---
 
 ## 3. 이미지 목록 표시
+
+### 3.1 로컬에 있는 이미지를 검색한다.
 
 ### 3.1.1 docker image ls 명령 구문
 
@@ -103,7 +109,9 @@ SIZE|이미지 크기
 
 ## 4. 이미지 상세 정보 확인
 
-### 4.1 docker image inspect 구문
+### 4.1 이미지의 상세 정보를 확인한다.
+
+### 4.1.1 docker image inspect 구문
 
 ```bash
 docker image inspect 이미지명[:태그명]
@@ -121,6 +129,8 @@ docker image inspect --format="{{ .Os}}" centos:7
 ---
 
 ## 5. 이미지 태그 설정
+
+### 5.1 이미지에 대한 태그를 설정한다.
 
 ### 5.1.1 docker image tag 구문
 
@@ -142,6 +152,8 @@ docker image ls
 
 ## 6. 이미지 검색
 
+### 6.1 Docker Hub 에 있는 이미지를 찾는다.
+
 ### 6.1.1 docker image search 구문
 
 ```bash
@@ -156,7 +168,7 @@ docker search [option] <search keyword>
 --limit|n 건의 검색결과를 표시
 --filter=stars=n|즐겨찾기의 수(n 이상)를 지정
 
-### 6.1.3 사용예시
+### 6.1.3 사용 예시
 
 ```bash
 ]$ docker search nginx
@@ -187,6 +199,8 @@ jwilder/nginx-proxy   Automated Nginx reverse proxy for docker con…   1641    
 ---
 
 ## 7. 이미지 삭제
+
+### 7.1 로컬에 저장된 이미지 파일을 삭제한다.
 
 ### 7.1.1 docker image rm 구문
 
@@ -226,6 +240,8 @@ REPOSITORY          TAG                 IMAGE ID            CREATED             
 ]$
 ```
 
+### 7.2 사용하지 않은 이미지 파일을 삭제한다.
+
 ### 7.2.1 docker image prune 구문
 
 ```bash
@@ -244,5 +260,67 @@ docker image prune [option]
 ```bash
 # 사용하지 않은 Docker 이미지를 삭제할때 사용된다.
 ]$ docker image prune
+```
+
+---
+
+## 8. Docker Hub에 로그인 
+
+### 8.1 Docker Hub 에 로그인 한다.
+
+### 8.1.1 docker login 구문
+
+```bash
+docker login [option] [server]
+```
+
+### 8.1.2 지정 가능한 주요 옵션
+
+옵션|설명
+---|---
+--password, -p|비밀번호
+--username, -u|사용자명
+
+### 8.1.3 사용 예시
+
+```bash
+# 옵션을 지정하지 않으면 사용자명과 비밀번호를 차례로 물어본다.
+]$ docker login
+username: {등록한 사용자명}
+password: {등록한 패스워드}
+```
+
+---
+
+## 9. 이미지 업로드
+
+### 9.1 Docker Hub 에 이미지를 업로드 한다.
+
+### 9.1.1 image push 구문
+
+```bash
+docker image push 이미지명[:태그명]
+
+# 업로드할 이미지는 아래와 같은 형식지정
+<Docker Hub 사용자명>/이미지명:[태그명]
+```
+
+### 9.1.2 사용 예시
+
+```bash
+]$ docker image push smahn/cheers2019
+# push 이후 Docker Hub 웹페이지로 이동하면 이미지 등록 확인 가능하다.
+```
+
+---
+
+## 10. Docker Hub 로그아웃
+
+### 10.1 Docker Hub 에 로그아웃을 한다.
+
+### 10.1.1 docker logout 구문
+
+```bash
+docker logout [서버명]
 ```
 
