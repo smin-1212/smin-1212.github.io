@@ -316,3 +316,103 @@ docker container ls [option]
 옵션 | 설명
 ---|---
 --all, -a|실행 중/정지 중인 것도 포함하여 모든 컨테이너를 표시
+--filter,-f|표시할 컨테이너의 필터링
+--format|표시 포맷을 지정
+--last, -n|마지막으로 실행된 n건의 컨테이너만 표시
+--latest, -l|마지막으로 실행된 컨테이너만 표시
+--no-trunc|정보를 생략하지 않고 표시
+--quiet, -q|컨테이너 ID만 표시
+--size, -s|파일 크기 표시
+
+### 6.1.3 사용 예시
+
+```bash
+]$ docker container ls
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES
+b85486c48d3f        nginx               "nginx -g 'daemon of…"   26 minutes ago      Up 7 seconds        0.0.0.0:8080->80/tcp   amazing_nash
+
+# CONTAINER ID :  컨테이너 ID
+# IMAGE : 컨테이너의 바탕이 된 이미지
+# COMMAND : 컨테이너 안에서 실행되고 있는 명령
+# CREATED : 컨테이너 작성 후 경과 시간
+# STATUS : 컨테이너의 상태(restarting|running|paused|exited)
+# PORTS : 할당된 포트
+# NAMES : 컨테이너 이름
+
+# 표시할 컨테이너의 필터링옵션은 -f
+]$ docker container ls -a -f name=test1
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                     PORTS               NAMES
+1d8747fe7317        centos              "/bin/bash"         2 hours ago         Exited (127) 2 hours ago                       test1
+```
+
+### 6.1.4 출력형식의 지정
+
+플레이스 홀더|설명
+---|---
+.ID|컨테이너 ID
+.Image|이미지 ID
+.Command|실행 명령
+.CreatedAt|컨테이너가 작성된 시간
+.RunningFor|컨테이너의 가동 시간
+.Ports|공개 포트
+.Status|컨테이너의 상태
+.Size|컨테이너 디스크 크기
+.Names|컨테이너명
+.Mounts|볼륨마운트
+.Networks|네트워크명
+
+### 6.1.5 사용 예시
+
+```bash
+# 컨테이너 ID와 가동 중인지 아닌지의 상태(Status)를 콜론으로 구분하여 표시.
+]$ $ docker container ls -a --format "{{.Names}}: {{.Status}}"
+vigilant_kalam: Exited (1) 15 minutes ago
+hopeful_blackwell: Exited (0) 24 minutes ago
+amazing_nash: Up 8 minutes
+vigorous_turing: Exited (0) 35 minutes ago
+blissful_lovelace: Exited (0) 38 minutes ago
+quirky_mendel: Exited (0) 49 minutes ago
+
+# 컨테이너 목록을 표 형식으로 출력한다.
+]$ docker container ls -a --format "table {{.Names}}\t{{.Status}}\t {{.Mounts}}"
+NAMES               STATUS                            MOUNTS
+vigilant_kalam      Exited (1) 17 minutes ago
+hopeful_blackwell   Exited (0) 26 minutes ago         /Users/usernam…
+amazing_nash        Up 10 minutes                     /Users/usernam…
+vigorous_turing     Exited (0) 37 minutes ago         /Users/usernam…
+blissful_lovelace   Exited (0) 39 minutes ago         /Users/usernam…
+quirky_mendel       Exited (0) 51 minutes ago
+```
+
+---
+
+## 7. 컨테이너 가동 확인
+### 7.1 컨테이너들의 가동상태를 확인한다.
+
+### 7.1.1 컨테이너 가동상태 확인 명령 구문
+
+```bash
+docker container stats [컨테이너 식별자]
+```
+
+### 7.1.2 실행 예시
+
+```bash
+# 컨테이너의 가동을 확인한다.
+]$ docker container stats webserver
+CONTAINER ID        NAME                CPU %               MEM USAGE / LIMIT   MEM %               NET I/O             BLOCK I/O           PIDS
+1d8747fe7317        test1               0.00%               0B / 0B             0.00%               0B / 0B             0B / 0B             0
+
+# CONTAINER ID : 컨테이너 식별자
+# NAME : 컨테이너 명
+# CPU % : CPU 사용률
+# MEM USAGE / LIMIT : 메모리 사용량/컨테이너에서 사용할 수 있는 메모리 제한
+# MEM % : 메모리 사용율
+# NET I/O : 네트워크 I/O
+# BLOCK I/O : 블록 I/O
+# PIDS : PID(Windows 컨테이너 제외)
+
+# 실행중인 프로세스 확인
+]$ docker container top amazing_nash
+```
+
