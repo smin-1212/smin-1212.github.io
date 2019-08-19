@@ -232,3 +232,87 @@ ff02::2	ip6-allrouters
 172.18.0.2	3a53bb8e5ce8
 ```
 
+---
+
+## 4. 자원지정 후 컨테이너 생성 및 실행
+### 4.1 물리적 자원을 지정하여 컨테이너 생성 및 실행을 한다.
+### 4.1.1 자원 지정 후 생성 및 실행 구문
+```bash
+docker container run [자원 옵션] 이미지명[:태그명] [인수]
+```
+
+### 4.1.2 지정할 수 있는 주요 옵션
+
+옵션 | 설명
+---|---
+--cpu-shares, -c|CPU의 사용 배분(비율)
+--memory, -m|사용할 메모리를 제한하여 실행 (단위는 b,k,m,g 중 하나)
+--volume=[호스트의 디렉토리]:[컨테이너의 디렉토리], -v|호스트와 컨테이너의 디렉토리 공유
+
+### 4.1.3 사용 예시
+
+```bash
+# CPU 시간의 상대 비율과 메모리 사용량을 지정
+# --cpu-shares 기본값은 1024 이다. 반을 사용하고 싶으면 512 를 넣는다.
+]$ docker container run --cpu-shares=512 --memory=1g centos
+
+# 호스트 OS 와 컨테이너 안의 디렉토리를 공유하고 싶을 때는 -v(--volume) 옵션을 지정
+# 예를 들어 호스트의 /Users/username/Documents/html 폴더를 컨테이너의
+# /usr/share/nginx/html 디렉토리와 공유하고 싶을 때는 아래의 명령을 실행
+]$ docker container run -v /Users/username/Documents/html:/usr/share/nginx/html nginx
+```
+
+---
+
+## 5. 컨테이너를 생성 및 시작하는 환경을 지정
+### 5.1 컨테이너의 환경변수 및 컨테이너 안의 작업 디렉토리 등을 지정하여 컨테이너를 생성/실행
+### 5.1.1 환경설정 구문
+
+```bash
+docker container run [환경설정 옵션] 이미지명[:태그명] [인수]
+```
+
+### 5.1.2 지정할 수 있는 주요 옵션
+
+옵션|설명
+---|---
+--env=[환경변수], -e| 환경변수를 설정한다.
+--env-file=[파일명]|환경변수를 파일로부터 설정한다.
+--read-only=[true \| false]|컨테이너의 파일 시스템을 읽기 전용으로 만든다.
+--workdir=[path], -w| 컨테이너의 작업 디렉토리를 지정한다.
+-u, --user=[사용자명]|사용자명 또는 UID를 지정한다.
+
+### 5.1.3 사용 예시
+
+```bash
+# 컨테이너 시작시 환경변수를 설정하려면 명령에 -e 옵션을 지정하여 실행
+]$ docker container run -it -e foo=bar centos /bin/bash
+
+# 환경변수를 정의한 파일로부터 일괄적으로 등록하고 싶은 경우는 파일로부터 읽어와 실행한다.
+]$ cat env_list
+hoge=fuga
+foo=bar
+
+]$ docker container run -it --env-file=env_list centos /bin/bash
+
+# 작업 디렉토리 지정하여 실행하는 경우
+]$ docker container run -it -w=/tensorflow centos /bin/bash
+[root@xxxxxxx]# pwd
+/tensorflow
+```
+
+---
+
+## 6. 가동 컨테이너 목록 표시
+### 6.1 가동중인 컨테이너의 목록을 확인 할 수 있다.
+
+### 6.1.1 컨테이너 목록 확인 구문
+```bash
+docker container ls [option]
+```
+
+### 6.1.2 지정할 수 있는 주요 옵션
+
+옵션 | 설명
+---|---
+--all, -a|실행 중/정지 중인 것도 포함하여 모든 컨테이너를 표시
