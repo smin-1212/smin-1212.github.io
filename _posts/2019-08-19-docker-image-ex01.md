@@ -10,14 +10,16 @@ tags: [docker]
 > Docker 가 설치된 OS CLI 환경
 
 ---
-### Docker Hub 이미지 검색
+### 1. Docker Hub 이미지 검색
 #### 접속 주소 : [https://hub.docker.com/](https://hub.docker.com/)
 
-#### 이미지 지정
+#### 1.1.1 이미지 지정
+
 ```json
 이미지명 [:태그명]
 ```
-#### 사용 예시
+#### 1.1.2 사용 예시
+
 ```
 centos:7
 -> centos 7 을 가지고 있는 Docker 이미지를 의미한다.
@@ -27,16 +29,18 @@ centos:7
 
 ---
 
-### Docker Hub 이미지 다운로드
+### 2. Docker Hub 이미지 다운로드
 
-#### docker image pull 명령 구문
+#### 2.1.1 docker image pull 명령 구문
+
 ```bash
 # Docker Hub 에서 이미지를 다운로드 받는 명령
 # 이미지 취득은 아래와 같은 구문으로 실행한다.
 docker image pull [option] 이미지명[:태그명]
 ```
 
-#### 사용 예시 [CentOS 의 이미지 취득]
+#### 2.1.2 사용 예시 [CentOS 의 이미지 취득]
+
 ```bash
 # centOS 7버전 이미지를 다운로드 받는 명령
 docker image pull centos:7
@@ -51,14 +55,15 @@ docker image pull gcr.io.tensorflow/tensorflow
 
 ---
 
-### 이미지 목록 표시
+### 3. 이미지 목록 표시
 
-#### docker image ls 명령 구문
+#### 3.1 docker image ls 명령 구문
+
 ```bash
 docker image ls [option] [repository_name]
 ```
-##### 지정 가능한 주요 옵션
 
+##### 3.1.1 지정 가능한 주요 옵션
 
 옵션|설명
 ---|---
@@ -67,6 +72,7 @@ docker image ls [option] [repository_name]
 --no-trunc|결과를 모두 표시
 --quiet, -q|Docker 이미지 ID만 표시
 
+##### 3.2 사용 예시
 
 ```bash
 ]$ docker image ls
@@ -77,7 +83,7 @@ golang              1.11-alpine         17915ddcabc4        5 days ago          
 centos              7                   9f38484d220f        5 months ago        202MB
 ```
 
-##### docker image ls 명령 결과
+##### 3.2.1 docker image ls 명령 결과
 
 
 항목|설명
@@ -89,16 +95,16 @@ CREATED|작성일
 SIZE|이미지 크기
 
 
-##### 다이제스트 ?
+##### __다이제스트 ?__
 > Docker 레지스트리에 업로드한 이미지는 이미지를 고유하게 식별하기위한 다이제스트를 부여받는다.
 > 
 > 명령창에서 다이제스트를 표시하고 싶을 때는 --digests 옵션을 설정한다.
 
 ---
 
-### 이미지 상세 정보 확인
+### 4. 이미지 상세 정보 확인
 
-#### docker image inspect 구문
+#### 4.1 docker image inspect 구문
 
 ```bash
 docker image inspect 이미지명[:태그명]
@@ -111,20 +117,19 @@ docker image inspect 이미지명[:태그명]
 
 docker image inspect --format="{{ .Os}}" centos:7
 # --format 옵션은 JSON의 계층구조를 지정한다.
-# 
 ```
 
 ---
 
-### 이미지 태그 설정
+### 5. 이미지 태그 설정
 
-#### docker image tag 구문
+#### 5.1 docker image tag 구문
 
 ```bash
 docker image tag <Docker Hub 사용자명>/이미지명:[태그명]
 ```
 
-#### 사용예시
+#### 5.2 사용예시
 
 ```bash
 # nginx라는 이미지를 다운로드 받았다는 가정
@@ -136,15 +141,15 @@ docker image ls
 
 ---
 
-### 이미지 검색
+### 6. 이미지 검색
 
-#### docker image search 구문
+#### 6.1 docker image search 구문
 
 ```bash
 docker search [option] <search keyword>
 ```
 
-#### 지정 가능한 주요 옵션
+#### 6.1.1 지정 가능한 주요 옵션
 
 옵션|설명
 ---|---
@@ -152,10 +157,10 @@ docker search [option] <search keyword>
 --limit|n 건의 검색결과를 표시
 --filter=stars=n|즐겨찾기의 수(n 이상)를 지정
 
-### 사용예시
-```bash
-docker search nginx
+#### 6.2 사용예시
 
+```bash
+]$ docker search nginx
 NAME                              DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED
 nginx                             Official build of Nginx.                        11837               [OK]
 jwilder/nginx-proxy               Automated Nginx reverse proxy for docker con…   1641                                    [OK]
@@ -170,4 +175,74 @@ tiangolo/nginx-rtmp               Docker image with Nginx using the nginx-rtmp�
 # STARS : 즐겨찾기 수
 # OFFICIAL : 공식 이미지인지에 대한 여부
 # AUTOMATED : Dockfile 바탕으로 생성된 파일인지에 대한 여부
+```
+
+```bash
+# 인기있는 이미지 검색, 즐겨찾기가 1000 이상인 이미지 검색
+]$ docker search --filter=stars=1000 nginx
+NAME                  DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED
+nginx                 Official build of Nginx.                        11837               [OK]
+jwilder/nginx-proxy   Automated Nginx reverse proxy for docker con…   1641                                    [OK]
+```
+
+---
+
+### 7. 이미지 삭제
+
+#### 7.1 docker image rm 구문
+
+```bash
+docker image rm [option] 이미지명 [이미지명]
+```
+
+#### 7.1.1 지정 가능한 주요 옵션
+
+옵션|설명
+---|---
+--force, -f|이미지를 강제로 삭제
+--no-prune|중간 이미지를 삭제하지 않음
+
+#### 7.1.2 사용 예시
+
+```bash
+# image 목록을 확인
+]$ docker image ls
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+<none>              <none>              72fb9ac88e80        3 hours ago         357MB
+nginx               latest              5a3221f0137b        3 days ago          126M
+
+# image 삭제 명령
+]$ docker image rm nginx
+Untagged: nginx:latest
+Untagged: nginx@sha256:53ddb41e46de3d63376579acf46f9a41a8d7de33645db47a486de9769201fec9
+Deleted: sha256:5a3221f0137beb960c34b9cf4455424b6210160fd618c5e79401a07d6e5a2ced
+Deleted: sha256:9517458cc6efeca05fee894eb0dda7cda7a704a6469e4624792289c9ff4350c0
+Deleted: sha256:963e4580fca3bf364728a7df40a2348939c25213d32508c53849108d05764093
+Deleted: sha256:1c95c77433e8d7bf0f519c9d8c9ca967e2603f0defbf379130d9a841cca2e28e
+
+# image 목록 확인
+]$ docker image ls
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+<none>              <none>              72fb9ac88e80        4 hours ago         357MB
+]$
+```
+
+#### 7.2 docker image prune 구문
+
+```bash
+docker image prune [option]
+```
+
+##### 7.2.1 지정 가능한 주요 옵션
+
+옵션|설명
+---|---
+--all, -a|사용하지 않은 이미지를 모두 삭제
+--force, -f|이미지를 강제로 삭제
+
+##### 7.2.2 사용예시
+
+```bash
+# 사용하지 않은 Docker 이미지를 삭제할때 사용된다.
+]$ docker image prune
 ```
