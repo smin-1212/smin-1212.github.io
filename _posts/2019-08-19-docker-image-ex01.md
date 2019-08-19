@@ -58,12 +58,15 @@ docker image pull gcr.io.tensorflow/tensorflow
 docker image ls [option] [repository_name]
 ```
 ##### 지정 가능한 주요 옵션
+
+
 옵션|설명
 ---|---
 -all,-a|모든 이미지를 표시
 --digests|다이제스트를 표시여부
 --no-trunc|결과를 모두 표시
 --quiet, -q|Docker 이미지 ID만 표시
+
 
 ```bash
 ]$ docker image ls
@@ -75,6 +78,8 @@ centos              7                   9f38484d220f        5 months ago        
 ```
 
 ##### docker image ls 명령 결과
+
+
 항목|설명
 ---|---
 REPOSITORY|이미지 이름
@@ -82,3 +87,15 @@ TAG|이미지 태그명
 IMAGE ID|이미지 ID
 CREATED|작성일
 SIZE|이미지 크기
+
+
+##### 다이제스트 ?
+> Docker 레지스트리에 업로드한 이미지는 이미지를 고유하게 식별하기위한 다이제스트를 부여받는다.
+> 
+> 명령창에서 다이제스트를 표시하고 싶을 때는 --digests 옵션을 설정한다.
+
+---
+
+### 이미지 상세 정보 확인
+
+#### docker image inspect 구문
