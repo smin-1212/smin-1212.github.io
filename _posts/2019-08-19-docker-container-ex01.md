@@ -416,3 +416,140 @@ CONTAINER ID        NAME                CPU %               MEM USAGE / LIMIT   
 ]$ docker container top amazing_nash
 ```
 
+---
+
+## 8. 컨테이너의 시작 
+### 8.1 컨테이너를 시작한다.
+### 8.1.1 컨테이너 시작 구문
+
+```bash
+docker container start [option] <컨테이너 식별자> [컨테이너 식별자]
+```
+
+### 8.1.2 지정할 수 있는 주요 옵션
+
+옵션|설명
+---|---
+--attach, -a|표준출력, 표준오류 출력을 연다.
+--interactive, -i|컨테이너의 표준 입력을 연다.
+
+### 8.1.3 실행 예시
+
+```bash
+]$ docker container ls -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                         PORTS                  NAMES
+ca6ec2d10fad        centos              "/bin/bash"              46 minutes ago      Exited (1) 38 minutes ago                             vigilant_kalam
+f4697e244ae7        nginx               "nginx -g 'daemon of…"   48 minutes ago      Exited (0) 47 minutes ago                             hopeful_blackwell
+b85486c48d3f        nginx               "nginx -g 'daemon of…"   58 minutes ago      Up 31 minutes                  0.0.0.0:8080->80/tcp   amazing_nash
+4a10d1919617        nginx               "nginx -g 'daemon of…"   About an hour ago   Exited (0) 58 minutes ago                             vigorous_turing
+]$ docker container start ca6ec2d10fad
+# 컨테이너의 ID 가 ca6ec2d10fad 인 컨테이너를 시작한다.
+```
+
+--- 
+
+## 9. 컨테이너의 정지
+### 9.1 실행중인 컨테이너를 정지한다.
+### 9.1.1 컨테이너 정지 구문
+
+```bash
+docker container stop [option] <컨테이너 식별자> [컨테이너 식별자]
+```
+
+### 9.1.2 지정할 수 있는 주요 옵션
+
+옵션|설명
+---|---
+--time, -t|컨테이너의 정지 시간을 지정(기본값은 10초)
+
+### 9.1.3 실행 예시
+
+```bash
+# 컨테이너의 아이디가 b85486c48d3f 인 컨테이너를 2초 후 정지
+]$ docker container ls
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES
+b85486c48d3f        nginx               "nginx -g 'daemon of…"   About an hour ago   Up 35 minutes       0.0.0.0:8080->80/tcp   amazing_nash
+]$ docker container stop -t 2 b85486c48d3f
+
+# 강제적으로 컨테이너를 정지시킬 때는 docker container kill 명령 사용
+```
+
+---
+
+## 10. 컨테이너 재시작
+### 10.1 컨테이너를 재시작 한다.
+### 10.1.1 컨테이너 재시작 구문
+
+```bash
+docker container restart [option] <컨테이너 식별자> [컨테이너 식별자]
+```
+
+### 10.1.2 지정할 수 있는 주요 옵션
+
+옵션|설명
+---|---
+--time, -t|컨테이너의 재시작 시간을 지정(기본값은 10초)
+
+### 10.1.3 실행 예시
+
+```bash
+# 컨테이너의 이름이 amazing_nash 인 컨테이너를 2초 후 재시작
+]$ docker container ls
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES
+b85486c48d3f        nginx               "nginx -g 'daemon of…"   About an hour ago   Up 35 minutes       0.0.0.0:8080->80/tcp   amazing_nash
+]$ docker container restart -t 2 amazing_nash
+```
+
+--- 
+
+## 11. 컨테이너 삭제
+### 11.1 컨테이너를 삭제한다.
+### 11.1.1 컨테이너 삭제 구문
+
+```bash
+docker container rm [option] <컨테이너 식별자> [컨테이너 식별자]
+```
+
+### 11.1.2 지정할 수 있는 주요 옵션
+
+옵션|설명
+---|---
+--force, -f|실행 중인 컨테이너를 강제로 삭제
+--volume, -v|할당한 볼륨을 삭제
+
+### 11.1.3 실행 예시
+
+```bash
+# 컨테이너의 ID 가 fa6fcb9b4701 인 컨테이너 삭제
+]$ docker container rm fa6fcb9b4701
+
+# 정지중인 모든 컨테이너 삭제는 prune을 사용
+]$ docker container prune
+```
+
+---
+
+## 12. 컨테이너 중단/재개
+### 12.1 실행중인 컨테이너에서 작동중인 프로세스를 모두 중단시킨다.
+### 12.1.1 실행 구문
+```bash
+docker container pause <컨테이너 식별자>
+```
+
+### 12.1.2 실행 예시
+```bash
+# 컨테이너의 이름이 amazing_nash 인 컨테이너내의 프로세스 중지
+]$ docker container pause amazing_nash
+amazing_nash
+]$ docker container ls
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                  PORTS                  NAMES
+b85486c48d3f        nginx               "nginx -g 'daemon of…"   About an hour ago   Up 8 minutes (Paused)   0.0.0.0:8080->80/tcp   amazing_nash
+
+# 중단 컨테이너 재개
+]$ docker container unpause amazing_nash
+amazing_nash
+]$ docker container ls
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES
+b85486c48d3f        nginx               "nginx -g 'daemon of…"   About an hour ago   Up 11 minutes       0.0.0.0:8080->80/tcp   amazing_nash
+```
+
