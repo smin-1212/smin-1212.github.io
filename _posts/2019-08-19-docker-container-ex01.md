@@ -144,4 +144,91 @@ ea3c99d510ef        centos              "/bin/bash"         13 seconds ago      
 
 ## 3. 컨테이너의 네트워크 설정
 ### 3.1 컨테이너의 네트워크를 설정한다.
+### 3.1.1 컨테이너의 네트워크 설정 구문
+
+```bash
+docker container run [네트워크 옵션] 이미지명[:태그명] [인수]
+```
+
+### 3.1.2 지정할 수 있는 주요 옵션
+
+옵션|설명
+---|---
+--add-host=[호스트명:IP주소]|컨테이너의 /etc/hosts에 호스트명과 IP 주소를 정의
+--dns=[IP주소]|컨테이너용 DNS 서버의 IP 주소 지정
+--expose|지정한 범위의 포트 번호를 할당
+--mac-address=[MAC주소]|컨테이너의 MAC 주소를 지정
+--net=[bidge \| none \| container:<name\|id> \| host \| network]|컨테이너의 네트워크를 지정
+--hostname, -h|컨테이너 자신의 호스트명을 지정
+--publish, -p[호스트의 포트번호]:[컨테이너의 포트번호]|호스트와 컨테이너의 포트 매핑
+--publish-all, -P|호스트의 임의의 포트를 컨테이너에 할당
+
+### 3.1.3 사용 예시
+
+```bash
+# 컨테이너의 포트를 매핑한다.
+# 호스트의 포트 번호 8080과 컨테이너의 포트번호 80을 mapping
+# 호스트의 8080 포트에 Access 하면 컨테이너에서 작동하고 있는 Nginx(80) 의 서비스에 엑세스 가능하다.
+]$ docker container run -d -p 8080:80 nginx
+
+# 컨테이너의 DNS 서버를 지정한다.
+]$ docker container run -d --dns 192.168.1.1 nginx
+
+# 컨테이너에 MAC 주소를 설정한다.
+]$ docker container run -d --mac-address="92:d0:c6:0a:29:33" centos
+fc4c1d58aa680d1caf0f8062589a80218b8bd81d4fa3b86c949e93982c2c3021
+]$ docker container inspect --format="{{ .Config.MacAddress }}" fc4c
+92:d0:c6:0a:29:33
+
+# 호스트명과 IP 주소를 정의한다.
+]$ docker container run -it --add-host test.com:192.168.1.1 centos
+[root@fa6fcb9b4701 /]# cat /etc/hosts
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+192.168.1.1	test.com
+172.17.0.2	fa6fcb9b4701
+
+# 호스트명을 설정한다.
+]$ docker container run -it --hostname www.test.com --add-host node1.test.com:192.168.1.1 centos
+[root@www /]# cat /etc/hosts
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+192.168.1.1	node1.test.com
+172.17.0.2	www.test.com www
+```
+
+### 3.1.4 --net 옵션의 지정
+
+설정값|설명
+---|---
+bidge|브리지 연결(기본값)을 사용한다.
+none|네트워크에 연결하지 않는다.
+container:[name \| id]|다른 컨테이너의 네트워크를 사용한다.
+host|컨테이너가 호스트 OS의 네트워크를 사용한다.
+NETWORK|사용자 정의 네트워크를 사용한다.
+
+### 3.1.5 사용 예시
+
+```bash
+# 외부 브리지 네트워크 드라이버를 사용하여 'webap-net'이라는 이름의 네트워크를 작성후,
+# 작성한 네트워크 상에서 컨테이너를 실행
+]$ docker network create -d bridge webap-net
+]$ docker container run --net=webap-net -it centos
+[root@3a53bb8e5ce8 /]# cat /etc/hosts
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+172.18.0.2	3a53bb8e5ce8
+```
 
