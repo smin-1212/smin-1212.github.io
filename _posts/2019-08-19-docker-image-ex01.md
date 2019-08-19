@@ -4,21 +4,21 @@ title: Docker 이미지 조작
 tags: [docker]
 ---
 
-## Docker image 조작
+# Docker image 조작
 
-### 실행 환경
+## 실행 환경
 > Docker 가 설치된 OS CLI 환경
 
 ---
-### 1. Docker Hub 이미지 검색
-#### 접속 주소 : [https://hub.docker.com/](https://hub.docker.com/)
+## 1. Docker Hub 이미지 검색
+### 접속 주소 : [https://hub.docker.com/](https://hub.docker.com/)
 
-#### 1.1.1 이미지 지정
+### 1.1.1 이미지 지정
 
 ```json
 이미지명 [:태그명]
 ```
-#### 1.1.2 사용 예시
+### 1.1.2 사용 예시
 
 ```
 centos:7
@@ -29,9 +29,9 @@ centos:7
 
 ---
 
-### 2. Docker Hub 이미지 다운로드
+## 2. Docker Hub 이미지 다운로드
 
-#### 2.1.1 docker image pull 명령 구문
+### 2.1.1 docker image pull 명령 구문
 
 ```bash
 # Docker Hub 에서 이미지를 다운로드 받는 명령
@@ -39,7 +39,7 @@ centos:7
 docker image pull [option] 이미지명[:태그명]
 ```
 
-#### 2.1.2 사용 예시 [CentOS 의 이미지 취득]
+### 2.1.2 사용 예시 [CentOS 의 이미지 취득]
 
 ```bash
 # centOS 7버전 이미지를 다운로드 받는 명령
@@ -55,15 +55,15 @@ docker image pull gcr.io.tensorflow/tensorflow
 
 ---
 
-### 3. 이미지 목록 표시
+## 3. 이미지 목록 표시
 
-#### 3.1 docker image ls 명령 구문
+### 3.1.1 docker image ls 명령 구문
 
 ```bash
 docker image ls [option] [repository_name]
 ```
 
-##### 3.1.1 지정 가능한 주요 옵션
+### 3.1.2 지정 가능한 주요 옵션
 
 옵션|설명
 ---|---
@@ -72,7 +72,7 @@ docker image ls [option] [repository_name]
 --no-trunc|결과를 모두 표시
 --quiet, -q|Docker 이미지 ID만 표시
 
-##### 3.2 사용 예시
+### 3.1.3 사용 예시
 
 ```bash
 ]$ docker image ls
@@ -83,8 +83,7 @@ golang              1.11-alpine         17915ddcabc4        5 days ago          
 centos              7                   9f38484d220f        5 months ago        202MB
 ```
 
-##### 3.2.1 docker image ls 명령 결과
-
+### 3.1.4 docker image ls 명령 결과
 
 항목|설명
 ---|---
@@ -95,16 +94,16 @@ CREATED|작성일
 SIZE|이미지 크기
 
 
-##### __다이제스트 ?__
+#### __다이제스트 ?__
 > Docker 레지스트리에 업로드한 이미지는 이미지를 고유하게 식별하기위한 다이제스트를 부여받는다.
 > 
 > 명령창에서 다이제스트를 표시하고 싶을 때는 --digests 옵션을 설정한다.
 
 ---
 
-### 4. 이미지 상세 정보 확인
+## 4. 이미지 상세 정보 확인
 
-#### 4.1 docker image inspect 구문
+### 4.1 docker image inspect 구문
 
 ```bash
 docker image inspect 이미지명[:태그명]
@@ -121,15 +120,15 @@ docker image inspect --format="{{ .Os}}" centos:7
 
 ---
 
-### 5. 이미지 태그 설정
+## 5. 이미지 태그 설정
 
-#### 5.1 docker image tag 구문
+### 5.1.1 docker image tag 구문
 
 ```bash
 docker image tag <Docker Hub 사용자명>/이미지명:[태그명]
 ```
 
-#### 5.2 사용예시
+### 5.1.2 사용예시
 
 ```bash
 # nginx라는 이미지를 다운로드 받았다는 가정
@@ -141,15 +140,15 @@ docker image ls
 
 ---
 
-### 6. 이미지 검색
+## 6. 이미지 검색
 
-#### 6.1 docker image search 구문
+### 6.1.1 docker image search 구문
 
 ```bash
 docker search [option] <search keyword>
 ```
 
-#### 6.1.1 지정 가능한 주요 옵션
+### 6.1.2 지정 가능한 주요 옵션
 
 옵션|설명
 ---|---
@@ -157,7 +156,7 @@ docker search [option] <search keyword>
 --limit|n 건의 검색결과를 표시
 --filter=stars=n|즐겨찾기의 수(n 이상)를 지정
 
-#### 6.2 사용예시
+### 6.1.3 사용예시
 
 ```bash
 ]$ docker search nginx
@@ -187,22 +186,22 @@ jwilder/nginx-proxy   Automated Nginx reverse proxy for docker con…   1641    
 
 ---
 
-### 7. 이미지 삭제
+## 7. 이미지 삭제
 
-#### 7.1 docker image rm 구문
+### 7.1.1 docker image rm 구문
 
 ```bash
 docker image rm [option] 이미지명 [이미지명]
 ```
 
-#### 7.1.1 지정 가능한 주요 옵션
+### 7.1.2 지정 가능한 주요 옵션
 
 옵션|설명
 ---|---
 --force, -f|이미지를 강제로 삭제
 --no-prune|중간 이미지를 삭제하지 않음
 
-#### 7.1.2 사용 예시
+### 7.1.3 사용 예시
 
 ```bash
 # image 목록을 확인
@@ -227,22 +226,23 @@ REPOSITORY          TAG                 IMAGE ID            CREATED             
 ]$
 ```
 
-#### 7.2 docker image prune 구문
+### 7.2.1 docker image prune 구문
 
 ```bash
 docker image prune [option]
 ```
 
-##### 7.2.1 지정 가능한 주요 옵션
+### 7.2.2 지정 가능한 주요 옵션
 
 옵션|설명
 ---|---
 --all, -a|사용하지 않은 이미지를 모두 삭제
 --force, -f|이미지를 강제로 삭제
 
-##### 7.2.2 사용예시
+### 7.2.3 사용예시
 
 ```bash
 # 사용하지 않은 Docker 이미지를 삭제할때 사용된다.
 ]$ docker image prune
 ```
+
